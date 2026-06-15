@@ -4,6 +4,25 @@ import model.*;
 import java.util.Scanner;
 
 public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("=================================");
+            System.out.println("    CASINO BLACKJACK - KONSOLA   ");
+            System.out.println("=================================");
+            System.out.println("1. Graj");
+            System.out.println("2. Wyjdź");
+            System.out.print("Wybierz opcję (1-2): ");
+
+            String choice = scanner.nextLine().trim();
+            if (choice.equals("2")) {
+                System.out.println("Dziękujemy za grę. Do widzenia!");
+                break;
+            } else if (choice.equals("1")) { uruchomRozgrywke(scanner); }
+            else { System.out.println("Nieprawidłowy wybór, spróbuj ponownie."); }
+        }
+        scanner.close();
+    }
     private static void wyswietlZasady() {
         System.out.println("\n--- ZASADY GRY BLACKJACK ---");
         System.out.println("* Cel: Zdobyć jak najbliżej 21 punktów, ale nie przekroczyć tej liczby.");
@@ -14,8 +33,7 @@ public class Main {
         System.out.println("---------------------------------------------");
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    private static void uruchomRozgrywke(Scanner scanner) {
         Deck deck = new Deck();
         Hand playerHand = new Hand();
         Hand dealerHand = new Hand();
