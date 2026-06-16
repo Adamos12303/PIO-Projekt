@@ -7,13 +7,13 @@ import java.util.List;
 public class Deck {
     private final List<Card> cards = new ArrayList<>();
     public Deck() {
-        for (Card.Suit suit : Card.Suit.values()) { for (Card.Rank rank : Card.Rank.values()) { cards.add(new Card(suit, rank)); } }
+        for (Card.Symbol symbol : Card.Symbol.values()) { for (Card.Waga waga : Card.Waga.values()) { cards.add(new Card(symbol, waga)); } }
         shuffle();
     }
 
     public void shuffle() { Collections.shuffle(cards); }
 
-    public Card drawCard() {
+    public Card dobierzKarty() {
         if (cards.isEmpty()) { return null; }
         return cards.remove(cards.size() - 1);
     }

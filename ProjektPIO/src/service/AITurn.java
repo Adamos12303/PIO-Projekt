@@ -6,7 +6,6 @@ import model.Deck;
 import java.util.List;
 
 public class AITurn {
-
     public static void przeprowadzTureBotow(List<AI> aiPlayers, Deck deck) {
         System.out.println("\n=== TURA PRZECIWNIKÓW AI ===");
 
@@ -14,11 +13,11 @@ public class AITurn {
             System.out.println("\nRuch wykonuje: " + ai.getName());
             UI.odczekaj(1000);
 
-            while (ai.getHand().calculateValue() < 21) {
+            while (ai.getHand().obliczWartosc() < 21) {
                 UI.odczekaj(1200);
                 if (ai.decideHit()) {
-                    Card drawn = deck.drawCard();
-                    ai.getHand().addCard(drawn);
+                    Card drawn = deck.dobierzKarty();
+                    ai.getHand().dodajKarte(drawn);
                     System.out.println(ai.getName() + " dobiera: " + drawn);
                     UI.odczekaj(1000);
                 } else {

@@ -12,7 +12,7 @@ public class AI {
     public String getName() { return name; }
 
     public boolean decideHit() {
-        int score = hand.calculateValue();
+        int score = hand.obliczWartosc();
         if (score < 12) return true;
         if (score >= 18) return false;
         int riskChance = switch (score) {
