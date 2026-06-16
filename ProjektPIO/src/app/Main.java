@@ -1,6 +1,10 @@
 package app;
 
 import model.*;
+import service.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -18,55 +22,70 @@ public class Main {
             if (choice.equals("2")) {
                 System.out.println("Dziękujemy za grę. Do widzenia!");
                 break;
-            } else if (choice.equals("1")) { uruchomRozgrywke(scanner); }
-            else { System.out.println("Nieprawidłowy wybór, spróbuj ponownie."); }
+            } else if (choice.equals("1")) {
+                uruchomRozgrywke(scanner);
+            } else {
+                System.out.println("Nieprawidłowy wybór, spróbuj ponownie.");
+            }
         }
         scanner.close();
-    }
-    private static void wyswietlZasady() {
-        System.out.println("\n--- ZASADY GRY BLACKJACK ---");
-        System.out.println("* Cel: Zdobyć jak najbliżej 21 punktów, ale nie przekroczyć tej liczby.");
-        System.out.println("* Karty 2-10 mają swoją wartość nominalną.");
-        System.out.println("* Walet, Dama, Król mają wartość 10 punktów.");
-        System.out.println("* As liczy się jako 11 lub jako 1 (gdy suma przekracza 21).");
-        System.out.println("* Krupier musi dobierać karty, dopóki ma mniej niż 17 punktów.");
-        System.out.println("---------------------------------------------");
     }
 
     private static void uruchomRozgrywke(Scanner scanner) {
         Deck deck = new Deck();
         Hand playerHand = new Hand();
         Hand dealerHand = new Hand();
+
+        List<AI> aiPlayers = new ArrayList<>();
+        aiPlayers.add(new AI("Bot Robert"));
+        aiPlayers.add(new AI("Bot Anna"));
+        for (AI ai : aiPlayers) {
+            ai.getHand().addCard(deck.drawCard());
+            ai.getHand().addCard(deck.drawCard());
+        }
+
         playerHand.addCard(deck.drawCard());
         playerHand.addCard(deck.drawCard());
         dealerHand.addCard(deck.drawCard());
 
         System.out.println("--- WITAJ W BLACKJACK ---");
-        wyswietlZasady();
+        UI.wyswietlZasady();
+
         while (playerHand.calculateValue() < 21) {
             System.out.println("\nKrupier pokazuje: [" + dealerHand.getCards().get(0) + "] | Suma pokazanych kart: " + dealerHand.getCards().get(0).getValue());
             System.out.println("Twoje karty: " + playerHand);
             System.out.print("Co robisz? (H = Hit/Dobierz, S = Stand/Pasuj): ");
 
             String action = scanner.nextLine().trim().toUpperCase();
-            if (action.equals("H")) { playerHand.addCard(deck.drawCard()); }
-            else if (action.equals("S")) { break; }
+            if (action.equals("H")) {
+                playerHand.addCard(deck.drawCard());
+            } else if (action.equals("S")) {
+                break;
+            }
         }
 
         int playerTotal = playerHand.calculateValue();
         System.out.println("\nTwoje ostateczne karty: " + playerHand);
         if (playerTotal > 21) {
             System.out.println("Przekroczyłeś 21! Przegrałeś (Bust).");
-            return;
         }
+        UI.odczekaj(1500);
 
-        System.out.println("\nTura Krupiera...");
-        while (dealerHand.calculateValue() < 17) { dealerHand.addCard(deck.drawCard()); }
+        AITurn.przeprowadzTureBotow(aiPlayers, deck);
+        int dealerTotal = Dealer.przeprowadzTureKrupiera(dealerHand, deck);
 
-        int dealerTotal = dealerHand.calculateValue();
-        System.out.println("Karty Krupiera: " + dealerHand);
-        if (dealerTotal > 21 || playerTotal > dealerTotal) { System.out.println("Wygrałeś!"); }
-        else if (playerTotal < dealerTotal) { System.out.println("Przegrałeś. Krupier wygrywa."); }
-        else { System.out.println("Remis (Push)!"); }
+        System.out.println("\n=================================");
+        System.out.println("         WYNIKI KOŃCOWE          ");
+        System.out.println("=================================");
+        UI.odczekaj(1000);
+        System.out.print("Gracz (Ty): ");
+        UI.wyswietlWynikIndywidualny(playerTotal, dealerTotal);
+        UI.odczekaj(800);
+        for (AI ai : aiPlayers) {
+            System.out.print(ai.getName() + ": ");
+            UI.wyswietlWynikIndywidualny(ai.getHand().calculateValue(), dealerTotal);
+            UI.odczekaj(800);
+        }
+        System.out.println("=================================\n");
     }
 }
