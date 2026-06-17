@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-
     public static void uruchom(Scanner scanner) {
         Deck deck = new Deck();
         Hand playerHand = new Hand();
@@ -29,7 +28,7 @@ public class Game {
         while (playerHand.obliczWartosc() < 21) {
             System.out.println("\nKrupier pokazuje: [" + dealerHand.Karty().get(0) + "] | Suma pokazanych kart: " + dealerHand.Karty().get(0).getWartosc());
             System.out.println("Twoje karty: " + playerHand);
-            System.out.print("Co robisz? (H = Hit/Dobierz, S = Stand/Pasuj): ");
+            System.out.print("\u001B[93mCo robisz? (H = Hit/Dobierz, S = Stand/Pasuj): \u001B[0m");
             String action = scanner.nextLine().trim().toUpperCase();
             if (action.equals("H")) {
                 playerHand.dodajKarte(deck.dobierzKarty());
@@ -41,7 +40,7 @@ public class Game {
         int playerTotal = playerHand.obliczWartosc();
         System.out.println("\nTwoje ostateczne karty: " + playerHand);
         if (playerTotal > 21) {
-            System.out.println("Przekroczyłeś 21! Przegrałeś (Bust).");
+            System.out.println("\u001B[31mPrzekroczyłeś 21! Przegrałeś (Bust).\u001B[0m");
         }
         UI.odczekaj(1500);
 
@@ -61,7 +60,7 @@ public class Game {
         UI.odczekaj(800);
 
         for (AI ai : aiPlayers) {
-            System.out.print(ai.getName() + ": ");
+            System.out.print(ai.getNazwa() + ": ");
             UI.wyswietlWynikIndywidualny(ai.getHand().obliczWartosc(), dealerTotal);
             UI.odczekaj(800);
         }

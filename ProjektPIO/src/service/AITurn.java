@@ -10,23 +10,23 @@ public class AITurn {
         System.out.println("\n=== TURA PRZECIWNIKÓW AI ===");
 
         for (AI ai : aiPlayers) {
-            System.out.println("\nRuch wykonuje: " + ai.getName());
+            System.out.println("\nRuch wykonuje: " + ai.getNazwa());
             UI.odczekaj(1000);
 
             while (ai.getHand().obliczWartosc() < 21) {
                 UI.odczekaj(1200);
-                if (ai.decideHit()) {
+                if (ai.czyDobrac()) {
                     Card drawn = deck.dobierzKarty();
                     ai.getHand().dodajKarte(drawn);
-                    System.out.println(ai.getName() + " dobiera: " + drawn);
+                    System.out.println(ai.getNazwa() + " dobiera: " + drawn);
                     UI.odczekaj(1000);
                 } else {
-                    System.out.println(ai.getName() + " pasuje.");
+                    System.out.println(ai.getNazwa() + " pasuje.");
                     UI.odczekaj(1000);
                     break;
                 }
             }
-            System.out.println("Ostateczny układ " + ai.getName() + ": " + ai.getHand());
+            System.out.println("Ostateczny układ " + ai.getNazwa() + ": " + ai.getHand());
             UI.odczekaj(1500);
         }
     }

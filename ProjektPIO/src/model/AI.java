@@ -9,9 +9,9 @@ public class AI {
 
     public AI(String name) { this.name = name; }
     public Hand getHand() { return hand; }
-    public String getName() { return name; }
+    public String getNazwa() { return name; }
 
-    public boolean decideHit() {
+    public boolean czyDobrac() {
         int score = hand.obliczWartosc();
         if (score < 12) return true;
         if (score >= 18) return false;

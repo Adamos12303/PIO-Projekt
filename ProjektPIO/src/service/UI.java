@@ -3,9 +3,22 @@ package service;
 import java.util.Scanner;
 
 public class UI {
+    public static void resetujLiczbeAI() {
+        liczbaAI = 0;
+    }
     private static int liczbaAI = 0;
     public static int getliczbaAI() {
         return liczbaAI;
+    }
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+
+    public static void printKolor(String tekst, String kolor) {
+        System.out.println(kolor + tekst + ANSI_RESET);
     }
 
     public static void odczekaj(int milisekundy) {
@@ -28,26 +41,26 @@ public class UI {
     }
 
     public static void wyswietlZasady() {
-        System.out.println("\n--- ZASADY GRY BLACKJACK ---");
-        System.out.println("* Cel: Zdobyć jak najbliżej 21 punktów, ale nie przekroczyć tej liczby.");
-        System.out.println("* Karty 2-10 mają swoją wartość nominalną.");
-        System.out.println("* Walet, Dama, Król mają wartość 10 punktów.");
-        System.out.println("* As liczy się jako 11 lub jako 1 (gdy suma przekracza 21).");
-        System.out.println("* Krupier musi dobierać karty, dopóki ma mniej niż 17 punktów.");
-        System.out.println("---------------------------------------------");
+        printKolor("\n--- ZASADY GRY BLACKJACK ---", ANSI_CYAN);
+        printKolor("* Cel: Zdobyć jak najbliżej 21 punktów, ale nie przekroczyć tej liczby.", ANSI_CYAN);
+        printKolor("* Karty 2-10 mają swoją wartość nominalną.", ANSI_CYAN);
+        printKolor("* Walet, Dama, Król mają wartość 10 punktów.", ANSI_CYAN);
+        printKolor("* As liczy się jako 11 lub jako 1 (gdy suma przekracza 21).", ANSI_CYAN);
+        printKolor("* Krupier musi dobierać karty, dopóki ma mniej niż 17 punktów.", ANSI_CYAN);
+        printKolor("---------------------------------------------", ANSI_CYAN);
     }
 
     public static void wyswietlWynikIndywidualny(int score, int dealerScore) {
         if (score > 21) {
-            System.out.println(score + " pkt - Przegrana (Przekroczenie 21)");
+            printKolor(score + " pkt - Przegrana (Przekroczenie 21)", ANSI_RED);
         } else if (dealerScore > 21) {
-            System.out.println(score + " pkt - Wygrana (Krupier przekroczył 21)!");
+            printKolor(score + " pkt - Wygrana (Krupier przekroczył 21)!", ANSI_GREEN);
         } else if (score > dealerScore) {
-            System.out.println(score + " pkt - Wygrana!");
+            printKolor(score + " pkt - Wygrana!", ANSI_GREEN);
         } else if (score < dealerScore) {
-            System.out.println(score + " pkt - Przegrana z krupierem.");
+            printKolor(score + " pkt - Przegrana z krupierem.", ANSI_RED);
         } else {
-            System.out.println(score + " pkt - Remis (Push).");
+            printKolor(score + " pkt - Remis (Push).", ANSI_YELLOW);
         }
     }
 

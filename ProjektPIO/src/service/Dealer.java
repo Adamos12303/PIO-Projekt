@@ -5,7 +5,7 @@ import model.Hand;
 
 public class Dealer {
     public static int przeprowadzTureKrupiera(Hand dealerHand, Deck deck) {
-        System.out.println("\nTura Krupiera...");
+        System.out.println("\u001B[95m\nTura Krupiera...\u001B[0m");
 
         while (dealerHand.obliczWartosc() < 17) {
             dealerHand.dodajKarte(deck.dobierzKarty());
